@@ -53,7 +53,7 @@ done < "$MANIFEST"
 git add -A -- $(echo "$want")
 echo "---- changes ----"; git diff --cached --stat
 if git diff --cached --quiet; then echo "nothing to publish"; exit 0; fi
-undo(){ git reset -q; git checkout -q -- $remove 2>/dev/null; git stash push -q --include-untracked -- $(echo "$want") && git stash drop -q; true; }  # back to HEAD
+undo(){ git reset -q --hard HEAD; git clean -fq -- $(echo "$want"); }  # back to HEAD exactly: the tree was clean when this run began (checked above), so all it holds is this run's copies
 [ $DRY -eq 1 ] && { undo; echo "(dry run: nothing committed, tree restored)"; exit 0; }
 read -r -p "Commit and push these to decks.aic-dc.net? [y/N] " ok
 [ "$ok" = y ] || { undo; echo "not published, tree restored"; exit 0; }
