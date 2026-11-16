@@ -49,9 +49,10 @@ done < "$MANIFEST"
 git add -A -- $(echo "$want")
 echo "---- changes ----"; git diff --cached --stat
 if git diff --cached --quiet; then echo "nothing to publish"; exit 0; fi
-[ $DRY -eq 1 ] && { git reset -q; echo "(dry run: nothing committed)"; exit 0; }
+undo(){ git stash push -q --include-untracked -- $(echo "$want") && git stash drop -q; }  # back to HEAD
+[ $DRY -eq 1 ] && { undo; echo "(dry run: nothing committed, tree restored)"; exit 0; }
 read -r -p "Commit and push these to decks.aic-dc.net? [y/N] " ok
-[ "$ok" = y ] || { git reset -q; echo "not published"; exit 0; }
+[ "$ok" = y ] || { undo; echo "not published, tree restored"; exit 0; }
 git commit -q -m "Publish decks site ($(date -u +%Y-%m-%dT%H:%MZ))"
 git push -q origin main
 git log -1 --oneline
