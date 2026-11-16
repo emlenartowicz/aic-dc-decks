@@ -27,10 +27,13 @@ h1{font-size:64px;line-height:1.12;max-width:17em;margin-top:0}
 .wordmark{position:absolute;left:96px;top:64px;height:52px;width:auto}
 .lockup{display:flex;align-items:center;gap:14px;font-size:26px;margin-top:40px}
 .lockup .dcmark{font-size:44px}
-.actions{position:absolute;left:96px;bottom:64px;font-size:19px;color:#5A5A58;display:flex;gap:28px;align-items:center}
-.actions a{background:#185FA5;color:#fff;text-decoration:none;padding:10px 20px;border-radius:6px}
-.actions a:hover{background:#0C4480}
-.actions{gap:12px} .actions a.alt{background:none;color:#185FA5;border:1px solid #185FA5;padding:9px 19px} .actions a.alt:hover{background:#E6F0FA} .actions .hint{margin-left:16px}
+/* downloads: page chrome outside the slide, shown on the title slide only */
+#dl{position:fixed;left:14px;bottom:12px;z-index:2;font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:#5A5A58;background:rgba(250,250,247,.88);padding:5px 10px;border-radius:4px;opacity:.75;transition:opacity .2s}
+#dl:hover,#dl:focus-within{opacity:1} #dl a{color:inherit;text-decoration:underline;text-decoration-color:rgba(90,90,88,.4);text-underline-offset:2px}
+#dl a:hover{color:#185FA5} #dl[hidden]{display:none}
+#nav{position:fixed;right:14px;bottom:12px;z-index:2;display:flex;align-items:center;gap:2px;font:13px/1 system-ui,-apple-system,"Segoe UI",sans-serif;color:#5A5A58;background:rgba(250,250,247,.88);padding:3px 6px;border-radius:4px;opacity:.7;transition:opacity .2s}
+#nav:hover,#nav:focus-within{opacity:1} #nav button{font:inherit;font-size:16px;line-height:1;color:inherit;background:none;border:0;border-radius:3px;padding:4px 7px;cursor:pointer}
+#nav button:hover:not(:disabled){color:#185FA5;background:rgba(24,95,165,.08)} #nav button:disabled{opacity:.35;cursor:default} #nav .count{padding:0 6px;font-variant-numeric:tabular-nums}
 footer{position:absolute;left:96px;right:96px;bottom:40px;display:flex;align-items:center;gap:12px;font-size:17px;color:#5A5A58;border-top:1px solid #E8E8E4;padding-top:16px}
 footer .dcmark{font-size:24px} footer .where{margin-left:auto}
 .end{align-items:center;text-align:center} .qr{width:300px;height:300px} .url{margin-top:20px}
@@ -49,7 +52,7 @@ footer .dcmark{font-size:24px} footer .where{margin-left:auto}
 .hasbook h1,.hasbook .src{max-width:660px}
 #bar{position:fixed;left:0;bottom:0;height:3px;background:#185FA5;transition:width .2s}
 @media print{@page{size:1280px 720px;margin:0} html,body{overflow:visible;height:auto} #stage{position:static;transform:none!important;width:auto;height:auto}
- .slide{display:flex!important;position:relative;width:1280px;height:720px;break-after:page} #bar,.actions{display:none}}
+ .slide{display:flex!important;position:relative;width:1280px;height:720px;break-after:page} #bar,#dl,#nav{display:none}}
 </style></head><body>
 <main id="stage">
 <section class="slide title hasbook">
@@ -83,7 +86,6 @@ footer .dcmark{font-size:24px} footer .where{margin-left:auto}
   <p class="num session">Session 1</p>
   <h1>Should we adopt<br>an AIC-DC licence?</h1>
   <p class="src">Questions for the strategic workshop</p>
-  <p class="actions"><span>Download</span><a href="session-1.pptx" download>PowerPoint</a><a class="alt" href="session-1.pdf" download>PDF</a><a class="alt" href="session-1.odp" download>OpenDocument</a><a class="alt" href="../fonts/aic-dc-deck-fonts.zip" download>Fonts</a><span class="hint">Install the fonts before opening the PowerPoint or OpenDocument file</span></p>
 </section>
 <section class="slide block">
   <p class="num">Why this session</p>
@@ -417,16 +419,19 @@ footer .dcmark{font-size:24px} footer .where{margin-left:auto}
 <span>AIC Deployment Commitments</span><span class="where">Session 1 · Should we adopt an AIC-DC licence?</span></footer>
 </section>
 </main><div id="bar"></div>
+<nav id="dl" aria-label="Downloads">Download <a href="session-1.pptx" download>PowerPoint</a> · <a href="session-1.pdf" download>PDF</a> · <a href="session-1.odp" download>OpenDocument</a> · <a href="../fonts/aic-dc-deck-fonts.zip" download>Fonts</a> <span>(install them before opening the PowerPoint or OpenDocument file)</span></nav>
+<nav id="nav" aria-label="Slides"><button type="button" data-go="first" title="First slide (Home)" aria-label="First slide">⇤</button><button type="button" data-go="prev" title="Previous slide (←)" aria-label="Previous slide">‹</button><span class="count" aria-live="polite"></span><button type="button" data-go="next" title="Next slide (→)" aria-label="Next slide">›</button></nav>
 <script>
-const S=[...document.querySelectorAll('.slide')],stage=document.getElementById('stage'),bar=document.getElementById('bar');
+const S=[...document.querySelectorAll('.slide')],stage=document.getElementById('stage'),bar=document.getElementById('bar'),dl=document.getElementById('dl'),nav=document.getElementById('nav'),cnt=nav.querySelector('.count'),nb=nav.querySelectorAll('button');
 let i=Math.min(S.length-1,Math.max(0,(parseInt(location.hash.slice(1))||1)-1));
-function show(n){i=Math.min(S.length-1,Math.max(0,n));S.forEach((s,k)=>s.classList.toggle('on',k===i));bar.style.width=((i+1)/S.length*100)+'%';history.replaceState(null,'','#'+(i+1));}
+function show(n){i=Math.min(S.length-1,Math.max(0,n));S.forEach((s,k)=>s.classList.toggle('on',k===i));bar.style.width=((i+1)/S.length*100)+'%';history.replaceState(null,'','#'+(i+1));dl.hidden=i!==0;cnt.textContent=(i+1)+' / '+S.length;nb[0].disabled=nb[1].disabled=i===0;nb[2].disabled=i===S.length-1;}
 function fit(){const k=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform='translate(-50%,-50%) scale('+k+')';}
 addEventListener('resize',fit);fit();show(i);
-addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' ','Enter'].includes(e.key))show(i+1);else if(['ArrowLeft','PageUp','Backspace'].includes(e.key))show(i-1);
+addEventListener('keydown',e=>{if(e.target.closest('button')&&(e.key===' '||e.key==='Enter'))return;if(['ArrowRight','PageDown',' ','Enter'].includes(e.key))show(i+1);else if(['ArrowLeft','PageUp','Backspace'].includes(e.key))show(i-1);
  else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1);else if(e.key==='f'||e.key==='F')(document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen());
  else if(e.key==='p'||e.key==='P')print();});
-addEventListener('click',e=>{if(e.target.closest('a'))return;show(e.clientX<innerWidth*0.3?i-1:i+1);});
+addEventListener('click',e=>{if(e.target.closest('a,#dl,#nav'))return;show(e.clientX<innerWidth*0.3?i-1:i+1);});
+nav.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const g=b.dataset.go;show(g==='first'?0:g==='prev'?i-1:i+1);});
 let x0=null;addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
 addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)show(dx<0?i+1:i-1);x0=null;});
 </script></body></html>
