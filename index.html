@@ -25,10 +25,12 @@ p.lead{font-size:21px;color:#5A5A58;margin-top:16px;max-width:36em} p.lead a{col
 .kind{margin-top:56px}
 .kind h2{display:flex;align-items:center;gap:16px;font-family:"Source Sans 3",system-ui,sans-serif;font-weight:400;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#5A5A58;margin-bottom:22px}
 .kind h2::after{content:"";flex:1;height:1px;background:#E8E8E4}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:28px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,248px);gap:28px}  /* cards near square (Em, 2026-11-23): a fixed width, and a height that starts at the width and grows only if the words need it */
 .card{display:flex;flex-direction:column;background:#fff;border:1px solid #E8E8E4;border-radius:10px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 2px 14px rgba(0,0,0,.04);transition:box-shadow .15s,transform .15s}
 .card:hover{box-shadow:0 6px 22px rgba(0,0,0,.09);transform:translateY(-2px)} .card:hover .t{color:#185FA5}
 .card .body{display:flex;flex-direction:column;padding:22px 24px 24px}
+.item{display:flex;flex-direction:column} .item .card{aspect-ratio:1/0.92}
+.item .src{font-size:12.5px;color:#5A5A58;margin:9px 0 0 2px} .item .src a{color:inherit;text-decoration:underline;text-decoration-color:rgba(90,90,88,.35);text-underline-offset:2px} .item .src a:hover{color:#185FA5}
 .card .n{color:#185FA5;letter-spacing:.1em;text-transform:uppercase;font-size:14px}
 .card .t{font-family:Lora,Georgia,serif;font-size:24px;line-height:1.22;margin-top:6px} .card .s{color:#5A5A58;font-size:17px;margin-top:6px}
 @media (max-width:560px){header{flex-direction:column;align-items:flex-start;gap:14px} h1{font-size:44px;margin-top:44px} main{padding:28px 20px 72px}}
@@ -60,5 +62,5 @@ p.lead{font-size:21px;color:#5A5A58;margin-top:16px;max-width:36em} p.lead a{col
 </svg></header>
 <h1>Decks</h1>
 <p class="lead">Slide decks for the AIC Deployment Commitments framework: general presentations, and workshop decks for the sessions through which an organization adopts and manages an AIC-DC licence.</p>
-<section class="kind"><h2>Adoption workshops</h2><div class="cards"><a class="card" href="chapter-5-1/"><span class="body"><span class="n">Workshop 1</span><span class="t">Should we adopt an AIC-DC licence?</span><span class="s">Questions for the strategic workshop</span></span></a></div></section>
+<section class="kind"><h2>General presentations</h2><div class="cards"><div class="item"><a class="card" href="chapter-2/"><span class="body"><span class="n">Presentation 2</span><span class="t">How does an AIC-DC licence work?</span><span class="s">The architecture of the framework</span></span></a><span class="src">Source: <a href="https://wg.aic-dc.net/the-standard/22">the Standard, Chapter 2</a></span></div></div></section><section class="kind"><h2>Adoption workshops</h2><div class="cards"><div class="item"><a class="card" href="chapter-5-1/"><span class="body"><span class="n">Workshop 1</span><span class="t">Should we adopt an AIC-DC licence?</span><span class="s">Questions for the strategic workshop</span></span></a><span class="src">Source: <a href="https://wg.aic-dc.net/the-standard/40#1-deciding-to-adopt">the Standard, section 5.1</a></span></div></div></section>
 </main></body></html>
